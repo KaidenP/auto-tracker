@@ -1,7 +1,7 @@
 <script lang="ts">
   import { issueRepository } from '$lib/db/issueRepository';
   import { issueUpdateRepository } from '$lib/db/issueUpdateRepository';
-  import { currentTab, editIssueId, settings } from '$lib/stores/app';
+  import { currentTab } from '$lib/stores/app';
   import { formatDate, formatCurrency } from '$lib/utils';
   import type { Issue, IssueUpdate, IssueStatus } from '$lib/types';
   import StatusBadge from '$lib/components/StatusBadge.svelte';
@@ -181,7 +181,7 @@
           <p class="muted">No updates yet.</p>
         {:else}
           <div class="timeline">
-            {#each [...updates].reverse() as update}
+            {#each [...updates].reverse() as update (update.id)}
               <div class="timeline-item" class:status-change={update.type === 'status-change'} class:repair={update.type === 'repair'}>
                 <div class="timeline-header">
                   <span class="timeline-type">{update.type}</span>

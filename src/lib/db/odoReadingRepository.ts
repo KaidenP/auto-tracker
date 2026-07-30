@@ -13,8 +13,8 @@ export const odoReadingRepository = {
 
   async getLatest(vehicleId: string): Promise<OdometerReading | undefined> {
     return db.odometerReadings
-      .where('vehicleId')
-      .equals(vehicleId)
+      .where('[vehicleId+date]')
+      .between([vehicleId], [vehicleId, '\uffff'])
       .reverse()
       .first();
   },

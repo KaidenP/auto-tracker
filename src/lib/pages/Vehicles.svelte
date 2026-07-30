@@ -68,7 +68,7 @@
     />
   {:else}
     <div class="vehicle-list">
-      {#each vehicles as vehicle}
+      {#each vehicles as vehicle (vehicle.id)}
         <div class="vehicle-row card">
           <button class="vehicle-info" onclick={() => viewVehicle(vehicle.id)}>
             <h3>{vehicle.name}</h3>

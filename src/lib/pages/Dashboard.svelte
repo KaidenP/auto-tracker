@@ -120,7 +120,7 @@
     </div>
 
     <div class="vehicle-grid">
-      {#each vehicles as vehicle}
+      {#each vehicles as vehicle (vehicle.id)}
         <button class="vehicle-card card" onclick={() => viewVehicle(vehicle.id)}>
           <div class="vehicle-card-header">
             <h3>{vehicle.name}</h3>
@@ -140,7 +140,7 @@
             {vehicle.year} {vehicle.make} {vehicle.model}
           </div>
           <div class="due-summary">
-            {#each getDueItems(vehicle.id) as { item, status }}
+            {#each getDueItems(vehicle.id) as { item, status } (item.id)}
               {#if status !== 'ok' && status !== 'never'}
                 <span class="due-item" style="color: {dueStatusColor(status)}">
                   {item.name}: {dueStatusLabel(status)}
@@ -156,7 +156,7 @@
       <div class="section">
         <h2>Upcoming & Overdue Maintenance</h2>
         <div class="due-list">
-          {#each allDueItems() as { vehicle, item, status }}
+          {#each allDueItems() as { vehicle, item, status } (item.id)}
             <div class="due-item-row" class:overdue={status === 'overdue'}>
               <StatusBadge type="due" value={status} />
               <span class="due-vehicle">{vehicle.name}</span>

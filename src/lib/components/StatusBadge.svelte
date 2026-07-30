@@ -1,6 +1,6 @@
 <script lang="ts">
   import { dueStatusLabel } from '$lib/dueStatus';
-  import type { DueStatus, IssueStatus, Severity } from '$lib/types';
+  import type { DueStatus } from '$lib/types';
 
   let { type, value }: {
     type: 'due' | 'issue-status' | 'severity';

@@ -21,12 +21,13 @@ export default [
     },
   },
   {
-    ignores: ['dist/', 'node_modules/', '*.config.*'],
+    ignores: ['dist/', 'node_modules/', '*.config.*', 'src-tauri/target/', 'android/'],
   },
   {
     rules: {
       '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
       '@typescript-eslint/no-explicit-any': 'warn',
+      'svelte/prefer-svelte-reactivity': 'off',
     },
   },
 ];

@@ -5,7 +5,7 @@
   import { maintenanceRecordRepository } from '$lib/db/maintenanceRecordRepository';
   import { issueRepository } from '$lib/db/issueRepository';
   import { currentTab, settings, editVehicleId, editIssueId } from '$lib/stores/app';
-  import { computeDueStatus, dueStatusLabel, dueStatusColor } from '$lib/dueStatus';
+  import { computeDueStatus } from '$lib/dueStatus';
   import { formatDate, todayISO, formatCurrency } from '$lib/utils';
   import type {
     Vehicle, OdometerReading, OdometerFormData,
@@ -253,7 +253,7 @@
                 <span class="reading-date">{formatDate(readings[0].date)}</span>
               </div>
               <div class="reading-history">
-                {#each readings as r, i}
+                {#each readings as r, i (r.id)}
                   <div class="reading-row">
                     <span>{r.value.toLocaleString()} {$settings.odometerUnit}</span>
                     <span class="muted">{formatDate(r.date)}</span>
@@ -317,7 +317,7 @@
           />
         {:else}
           <div class="maint-list">
-            {#each maintenanceItems as item}
+            {#each maintenanceItems as item (item.id)}
               <div class="maint-item card">
                 <div class="maint-item-header">
                   <div>
@@ -389,7 +389,7 @@
             <p class="muted">No completed service records.</p>
           {:else}
             <div class="record-list">
-              {#each maintenanceRecords as record}
+              {#each maintenanceRecords as record (record.id)}
                 <div class="record-row">
                   <span class="record-name">{maintenanceItems.find(i => i.id === record.maintenanceItemId)?.name ?? 'Unknown'}</span>
                   <span>{formatDate(record.completedDate)}</span>
@@ -450,7 +450,7 @@
           />
         {:else}
           <div class="issue-list">
-            {#each issues as issue}
+            {#each issues as issue (issue.id)}
               <button class="issue-row card" onclick={() => viewIssue(issue.id)}>
                 <div class="issue-header">
                   <h4>{issue.title}</h4>

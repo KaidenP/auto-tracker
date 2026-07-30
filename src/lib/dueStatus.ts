@@ -1,4 +1,4 @@
-import type { DueStatus, MaintenanceItem, OdometerUnit } from '$lib/types';
+import type { DueStatus, OdometerUnit } from '$lib/types';
 import { daysBetween, addDays } from '$lib/utils';
 
 export interface DueStatusInput {

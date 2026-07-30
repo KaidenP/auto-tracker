@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentTab, editVehicleId, editIssueId } from '$lib/stores/app';
+  import { currentTab, editIssueId } from '$lib/stores/app';
   import Layout from '$lib/components/Layout.svelte';
   import Dashboard from '$lib/pages/Dashboard.svelte';
   import Vehicles from '$lib/pages/Vehicles.svelte';

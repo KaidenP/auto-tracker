@@ -1,5 +1,5 @@
-import { writable, derived } from 'svelte/store';
-import type { Vehicle, OdometerReading, AppSettings } from '$lib/types';
+import { writable } from 'svelte/store';
+import type { Vehicle, AppSettings } from '$lib/types';
 import { settingsRepository } from '$lib/db/settingsRepository';
 
 export const currentVehicle = writable<Vehicle | null>(null);

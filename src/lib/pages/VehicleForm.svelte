@@ -50,7 +50,7 @@
       }
       editVehicleId.set(null);
       currentTab.set('vehicles');
-    } catch (e) {
+    } catch {
       error = 'Failed to save vehicle';
     } finally {
       saving = false;

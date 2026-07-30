@@ -20,7 +20,7 @@
       <h2>AutoTracker</h2>
     </div>
     <nav class="sidebar-nav">
-      {#each navItems as item}
+      {#each navItems as item (item.id)}
         <button
           class="nav-item"
           class:active={$currentTab === item.id || ($currentTab.startsWith('vehicle-') && item.id === 'vehicles')}
