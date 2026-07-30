@@ -1,27 +1,29 @@
 # AGENTS.md
 
-This project follows the implementation plan in PLAN.md (root of repo).
+## Build & Verify
 
-- Read PLAN.md before starting any work to understand architecture, data model, phases, and acceptance criteria.
-- Work through phases in order; do not skip ahead.
-- After completing any phase or making significant changes, update PLAN.md's status/task breakdown as appropriate.
-- If new requirements emerge that aren't covered in PLAN.md, discuss them before diverging from the plan, then update this file and PLAN.md to stay in sync.
-- Add any project-specific conventions, commands, or gotchas discovered during development to this file.
-
-## Build Commands
-
-- `npm run dev` — Start Vite dev server
-- `npm run build` — Build web app (outputs to `dist/`)
-- `npm test` — Run Vitest unit tests
-- `npm run tauri build` — Build Tauri desktop app (requires Rust + system libs)
+- `npm run dev` — Vite dev server at `http://localhost:5173`
+- `npm run build` — Web build to `dist/`
+- `npm run check` — svelte-check (type-check Svelte files)
+- `npm run lint` — ESLint (`.ts`, `.svelte`)
+- `npm test` — Vitest unit tests (jsdom + fake-indexeddb)
+- `npm run test:watch` — Vitest in watch mode
+- `npm run test:coverage` — Vitest with coverage
+- `npm run tauri build` — Tauri desktop build (requires Rust + system libs)
 - `npx cap sync android` — Sync web build to Android project
-- `npm run lint` — Run ESLint
-- `npm run format` — Run Prettier
 
-## Conventions
+CI pipeline order: `lint -> test -> build` (web, then desktop matrix, then Android).
 
-- Use `$lib/` path alias for imports from `src/lib/`
-- Svelte 5 runes syntax: `$state()`, `$derived()`, `$effect()`, `$props()`
-- All database operations go through typed repository modules in `src/lib/db/`
-- Platform-specific code in `src/platform/` with interface defined in `src/lib/platform/types.ts`
-- Use nanoid for ID generation (12-char hex)
+## Architecture
+
+- **Svelte 5** with `svelte/store` writable stores (not runes `$state`/`$derived`; only `$props()` rune is used in components).
+- **Dexie** (IndexedDB) for persistence. Schema defined in `src/lib/db/database.ts`. All DB access through typed repositories in `src/lib/db/`.
+- **3 platforms** auto-detected at bootstrap in `src/main.ts`: web, Tauri (desktop), Capacitor (Android). Platform interface in `src/lib/platform/types.ts`, implementations in `src/platform/`.
+- **ID generation**: nanoid with 12-char hex via `generateId()` in `src/lib/utils.ts`.
+- **$lib/** path alias maps to `src/lib/`.
+
+## Key conventions
+
+- Tests live in `src/lib/db/__tests__/`; use Vitest with `fake-indexeddb/auto` (set up in `src/test-setup.ts`). Each test suite calls `new AutoTrackerDB()` + delete + open in `beforeEach` to isolate state.
+- Prettier config: single quotes, trailing commas, 100 print width, semicolons.
+- ESLint: warn on unused vars (prefix with `_` to ignore) and `no-explicit-any`.
